@@ -1,0 +1,15 @@
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 2px;
+}
+
+.axis {
+  font: 14px times;
+}
+
+.guide {
+  stroke: rgb(209, 209, 209);
+  stroke-width: 2px;
+  stroke-dasharray: 5;
+}
