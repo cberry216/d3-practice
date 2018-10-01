@@ -1,15 +1,42 @@
+/* Style for the actual line */
 .line {
   fill: none;
   stroke: steelblue;
   stroke-width: 2px;
 }
 
+/* Style for the axes */
 .axis {
   font: 14px times;
 }
 
+/* Style for the guide lines for each point */
 .guide {
   stroke: rgb(209, 209, 209);
   stroke-width: 2px;
   stroke-dasharray: 5;
+}
+
+/* Style for area under the curve */
+.area {
+  fill: lightsteelblue;
+}
+
+/* Make text more visible by add shadows */
+text.shadow {
+  stroke: white;
+  stroke-width: 4px;
+  opacity: 0.8;
+}
+
+/* Styling for grid lines */
+.grid line {
+  stroke: lightgrey;
+  stroke-opacity: 0.7;
+  shape-rendering: crispEdges;
+}
+
+/* Remove extra grid lines at the top and right of the graph */
+.grid path {
+  stroke-width: 0;
 }
