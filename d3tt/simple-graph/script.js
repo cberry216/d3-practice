@@ -105,12 +105,13 @@ d3.csv("data2.csv", (error, data) => {
     .attr("class", "axis")
     .call(d3.axisBottom(x));
 
-  // Rotating the tick labels to fit
-  // .selectAll("text")
-  // .style("text-anchor", "end")
-  // .attr("dx", "-.8em")
-  // .attr("dy", ".15em")
-  // .attr("transform", "rotate(-65)");
+  //   //   Rotating the tick labels to fit
+  //   svg
+  //     .selectAll("text")
+  //     .style("text-anchor", "end")
+  //     .attr("dx", "-.8em")
+  //     .attr("dy", ".15em")
+  //     .attr("transform", "rotate(-65)");
 
   // Add the x-axis label
   svg
