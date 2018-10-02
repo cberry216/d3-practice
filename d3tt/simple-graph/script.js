@@ -10,7 +10,9 @@ var parseTime = d3.timeParse("%d-%b-%y");
 
 // Set the ranges
 var x = d3.scaleTime().range([0, width]);
-var y = d3.scaleLinear().range([height, 0]);
+// Two ranges for two data sets
+var y0 = d3.scaleLinear().range([height, 0]);
+var y1 = d3.scaleLinear().range([height, 0]);
 
 // // define the area under the line
 // var area = d3
@@ -25,13 +27,13 @@ var valueline = d3
   .line()
   //   .curve(d3.curveBasis) // makes the line curved
   .x(d => x(d.date))
-  .y(d => y(d.close));
+  .y(d => y0(d.close));
 
 // define a second line
 var valueline2 = d3
   .line()
   .x(d => x(d.date))
-  .y(d => y(d.open));
+  .y(d => y1(d.open));
 
 // x-axis grid lines
 function makeXGridlines() {
@@ -40,7 +42,7 @@ function makeXGridlines() {
 
 // y-axis grid lines
 function makeYGridlines() {
-  return d3.axisLeft(y).ticks(5);
+  return d3.axisLeft(y0).ticks(5);
 }
 
 // Append the 'svg' element to the body of the page
@@ -54,8 +56,12 @@ var svg = d3
   .append("g")
   .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-// Get the data
-d3.csv("data2.csv", (error, data) => {
+// // Get the data
+// d3.csv("data2.csv", (error, data) => {
+//   if (error) throw error;
+
+// Use secondary data
+d3.csv("data2_min.csv", (error, data) => {
   if (error) throw error;
 
   // Format data
@@ -67,7 +73,8 @@ d3.csv("data2.csv", (error, data) => {
 
   // Scale the range of the data
   x.domain(d3.extent(data, d => d.date)); //.extent returns array of min and max
-  y.domain([0, d3.max(data, d => Math.max(d.close, d.open))]);
+  y0.domain([0, d3.max(data, d => Math.max(d.close))]);
+  y1.domain([0, d3.max(data, d => Math.max(d.open))]);
 
   //   // Add the area under the curve
   //   svg
@@ -134,11 +141,17 @@ d3.csv("data2.csv", (error, data) => {
         .tickFormat("")
     );
 
-  // Add the y-axis
+  // Add the left y-axis
   svg
     .append("g")
-    .attr("class", "axis")
-    .call(d3.axisLeft(y));
+    .attr("class", "axis-steel-blue")
+    .call(d3.axisLeft(y0));
+
+  svg
+    .append("g")
+    .attr("class", "axis-red")
+    .attr("transform", "translate(" + width + ",0)")
+    .call(d3.axisRight(y1));
 
   // Add the y-axis label
   svg
@@ -167,14 +180,17 @@ d3.csv("data2.csv", (error, data) => {
     .attr("class", "line")
     .attr("d", valueline);
 
-  // Add label for valueline path
-  svg
-    .append("text")
-    .attr("transform", "translate(" + (width + 3) + "," + y(data[0].open) + ")")
-    .attr("dy", ".35em")
-    .attr("text-anchor", "start")
-    .style("fill", "red")
-    .text("Open");
+  //   // Add label for valueline path
+  //   svg
+  //     .append("text")
+  //     .attr(
+  //       "transform",
+  //       "translate(" + (width + 3) + "," + y0(data[0].close) + ")"
+  //     )
+  //     .attr("dy", ".35em")
+  //     .attr("text-anchor", "start")
+  //     .style("fill", "red")
+  //     .text("Open");
 
   // Add the valueline2 path
   svg
@@ -184,17 +200,17 @@ d3.csv("data2.csv", (error, data) => {
     .attr("d", valueline2)
     .style("stroke", "red");
 
-  // Add label for valueline2 path
-  svg
-    .append("text")
-    .attr(
-      "transform",
-      "translate(" + (width + 3) + "," + y(data[0].close) + ")"
-    )
-    .attr("dy", ".35em")
-    .attr("text-anchor", "start")
-    .style("fill", "steelblue")
-    .text("Close");
+  //   // Add label for valueline2 path
+  //   svg
+  //     .append("text")
+  //     .attr(
+  //       "transform",
+  //       "translate(" + (width + 3) + "," + y1(data[0].open) + ")"
+  //     )
+  //     .attr("dy", ".35em")
+  //     .attr("text-anchor", "start")
+  //     .style("fill", "steelblue")
+  //     .text("Close");
 
   // Add shadow to text of graph
   svg
