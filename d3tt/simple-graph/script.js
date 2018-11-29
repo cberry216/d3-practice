@@ -14,13 +14,13 @@ var x = d3.scaleTime().range([0, width]);
 var y0 = d3.scaleLinear().range([height, 0]);
 var y1 = d3.scaleLinear().range([height, 0]);
 
-// // define the area under the line
-// var area = d3
-//   .area()
-//   .curve(d3.curveBasis)
-//   .x(d => x(d.date))
-//   .y0(height)
-//   .y1(d => y(d.close));
+// define the area under the line
+var area = d3
+  .area()
+  .curve(d3.curveBasis)
+  .x(d => x(d.date))
+  .y0(height)
+  .y1(d => y0(d.close));
 
 // define the line
 var valueline = d3
@@ -76,22 +76,22 @@ d3.csv("data2_min.csv", (error, data) => {
   y0.domain([0, d3.max(data, d => Math.max(d.close))]);
   y1.domain([0, d3.max(data, d => Math.max(d.open))]);
 
-  //   // Add the area under the curve
-  //   svg
-  //     .append("path")
-  //     .data([data])
-  //     .attr("class", "area")
-  //     .attr("d", area);
+  // Add the area under the curve
+  svg
+    .append("path")
+    .data([data])
+    .attr("class", "area")
+    .attr("d", area);
 
-  //   // Add the scatter plot
-  //   svg
-  //     .selectAll("dot")
-  //     .data(data)
-  //     .enter()
-  //     .append("circle")
-  //     .attr("r", 2)
-  //     .attr("cx", d => x(d.date))
-  //     .attr("cy", d => y(d.close));
+  // Add the scatter plot
+  svg
+    .selectAll("dot")
+    .data(data)
+    .enter()
+    .append("circle")
+    .attr("r", 2)
+    .attr("cx", d => x(d.date))
+    .attr("cy", d => y0(d.close));
 
   //   // Add guide lines to points
   //   svg
